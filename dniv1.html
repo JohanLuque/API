@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="dni" maxlength="8">
+  <button type="button" id="consultar">Consular dni</button>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () =>{
+      const dni = document.querySelector("#dni");
+      const btconsulta = document.querySelector("#consultar");
+
+      btconsulta.addEventListener("click", ()=>{
+        let URL = `https://dniruc.apisperu.com/api/v1/dni/${dni.value}?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imx1cXVlam9oYW4xOTRAZ21haWwuY29tIn0.AVIiijfUH1jstHgez3akgG4Pme1kZaViSVQF-no_puw`;
+        fetch(URL)
+          .then(respuesta => respuesta.json())
+          .then(datos =>{
+            console.log(datos);
+          })
+      })
+    });
+  </script>
+</body>
+</html>

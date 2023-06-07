@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="ruc" maxlength="11">
+  <button type="button" id="consultar">Consular RUC</button>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () =>{
+      const ruc = document.querySelector("#ruc");
+      const btconsulta = document.querySelector("#consultar");
+
+      btconsulta.addEventListener("click", ()=>{
+        const parametros = new URLSearchParams();
+        parametros.append("tipo", "ruc");
+        parametros.append("documento", ruc.value);
+
+        fetch(`./webservice.php`,{
+          method: "POST",
+          body: parametros
+        })
+          .then( respuesta =>{
+            if(respuesta.status == 200 && respuesta.ok){
+              return respuesta.json();
+            }
+            else{
+              throw `Problemas al comunicarse con el servidor`;
+            }
+          })
+          .then(datos =>{
+              console.log('Razon Social: ', datos.razonSocial);
+              console.log('RUC: ', datos.ruc);
+              console.log('Provincia: ', datos.provincia);
+              console.log('Direccion: ', datos.direccion);
+          })
+          .catch(error=>{
+            console.error();
+          });
+      })
+    });
+  </script>
+</body>
+</html>

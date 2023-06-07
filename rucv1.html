@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="ruc" maxlength="11">
+  <button type="button" id="consultar">Consular RUC</button>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () =>{
+      const ruc = document.querySelector("#ruc");
+      const btconsulta = document.querySelector("#consultar");
+
+      btconsulta.addEventListener("click", ()=>{
+        let URL = `https://dniruc.apisperu.com/api/v1/ruc/${ruc.value}?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imx1cXVlam9oYW4xOTRAZ21haWwuY29tIn0.AVIiijfUH1jstHgez3akgG4Pme1kZaViSVQF-no_puw`;
+        fetch(URL)
+          .then(respuesta => respuesta.json())
+          .then(datos =>{
+            console.log(datos);
+          })
+      })
+    });
+  </script>
+</body>
+</html>

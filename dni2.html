@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="dni" maxlength="8">
+  <button type="button" id="consultar">Consular dni</button>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () =>{
+      const dni = document.querySelector("#dni");
+      const btconsulta = document.querySelector("#consultar");
+
+      btconsulta.addEventListener("click", ()=>{
+        const parametros = new URLSearchParams();
+        parametros.append("tipo", "dni");
+        parametros.append("documento", dni.value);
+
+        fetch(`./webservice.php`,{
+          method: "POST",
+          body: parametros
+        })
+          .then( respuesta =>{
+            if(respuesta.status == 200 && respuesta.ok){
+              return respuesta.json();
+            }
+            else{
+              throw `Problemas al comunicarse con el servidor`;
+            }
+          })
+          .then(datos =>{
+            if(datos.success){
+              console.log('Cod verificacion: ', datos.codVerifica);
+              console.log('apellido Paterno: ', datos.apellidoPaterno);
+              console.log('apellido Materno: ', datos.apellidoMaterno);
+              console.log('Nombres: ', datos.nombres);
+            }else{
+              console.log(datos.message)
+            }
+          })
+          .catch(error=>{
+            console.error();
+          });
+      })
+    });
+  </script>
+</body>
+</html>
